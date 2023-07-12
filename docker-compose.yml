@@ -19,6 +19,8 @@ services:
     depends_on:
       - mongo
       - redis
+    networks:
+      - my-network
   booking-service:
     build:
       context: ./booking-service
@@ -35,6 +37,22 @@ services:
     depends_on:
       - mongo
       - redis
+    networks:
+      - my-network
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - /app/node_modules
+      - ./api-gateway:/app
+    depends_on:
+      - user-service
+      - booking-service
+    networks:
+      - my-network
   mongo:
     image: mongo
     ports:
@@ -45,3 +63,5 @@ services:
     image: redis
     ports:
       - 6379:6379
+networks:
+  my-network:
