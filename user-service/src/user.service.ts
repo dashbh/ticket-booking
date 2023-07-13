@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from './user.interface';
-import { RegisterDto, LoginDto } from './user.dto';
+import { User } from './schema/user.interface';
+import { RegisterDto, LoginDto, UserResponseDto } from './schema/user.dto';
 import * as bcrypt from 'bcrypt';
 import Redis from 'ioredis';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,7 +16,16 @@ export class UserService {
     this.redisClient = new Redis(`redis://${redisConf.host}:${redisConf.port}`);
   }
 
-  async register(registerDto: RegisterDto): Promise<User> {
+  private mapUserObject(user): UserResponseDto {
+    return {
+      username: user.username,
+      fullName: user.fullName,
+      createdAt: user.createdAt,
+      phone: user.phone,
+    };
+  }
+
+  async register(registerDto: RegisterDto): Promise<UserResponseDto> {
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
 
     const user = new this.userModel({
@@ -24,7 +33,9 @@ export class UserService {
       password: hashedPassword,
     });
 
-    return user.save();
+    const savedUser = await user.save();
+
+    return this.mapUserObject(savedUser);
   }
 
   async login(loginDto: LoginDto) {
@@ -52,8 +63,9 @@ export class UserService {
     };
   }
 
-  async getUserDetails(userId: string) {
-    return this.userModel.findById(userId);
+  async getUserDetails(userId: string): Promise<UserResponseDto> {
+    const user = await this.validateUser(userId);
+    return this.mapUserObject(user);
   }
 
   async validateUser(userId: string) {

@@ -15,6 +15,13 @@ export class RegisterDto {
   phone: string;
 }
 
+export class UserResponseDto {
+  username: string;
+  fullName: string;
+  phone: string;
+  createdAt: Date;
+}
+
 export class LoginDto {
   @IsNotEmpty()
   username: string;

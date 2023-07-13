@@ -1,4 +1,4 @@
-import { MovieResponseDto } from '../movies/movie.dto';
+import { MovieResponseDto } from '../movies/schema/movie.dto';
 
 export class CreatedBookingResponseDto {
   id: string;

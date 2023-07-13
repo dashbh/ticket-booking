@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Booking } from './booking.interface';
-import { CreateBookingDto } from './dto/create-booking.dto';
+import { Booking } from './schema/booking.interface';
+import { CreateBookingDto } from './schema/create-booking.dto';
 import { MoviesService } from './movies/movies.service';
 import {
   BookingResponseDto,
   CreatedBookingResponseDto,
-} from './dto/bookings.dto';
+} from './schema/bookings.dto';
 
 @Injectable()
 export class BookingService {

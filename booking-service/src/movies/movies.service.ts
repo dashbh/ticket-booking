@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Movie } from './movie.interface';
+import { Movie } from './schema/movie.interface';
 import { moviesSeedData } from 'src/database/movies';
 
 @Injectable()
