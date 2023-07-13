@@ -16,7 +16,7 @@ export class UserService {
     this.redisClient = new Redis(`redis://${redisConf.host}:${redisConf.port}`);
   }
 
-  async register(registerDto: RegisterDto) {
+  async register(registerDto: RegisterDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
 
     const user = new this.userModel({

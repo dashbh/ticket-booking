@@ -4,6 +4,10 @@ import { Model } from 'mongoose';
 import { Booking } from './booking.interface';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { MoviesService } from './movies/movies.service';
+import {
+  BookingResponseDto,
+  CreatedBookingResponseDto,
+} from './dto/bookings.dto';
 
 @Injectable()
 export class BookingService {
@@ -12,17 +16,43 @@ export class BookingService {
     private readonly moviesService: MoviesService,
   ) {}
 
-  async createBooking(createBookingDto: CreateBookingDto): Promise<Booking> {
+  async createBooking(
+    createBookingDto: CreateBookingDto,
+  ): Promise<CreatedBookingResponseDto> {
     const createdBooking = new this.bookingModel(createBookingDto);
-    return createdBooking.save();
+    createdBooking.save();
+
+    const movie = await this.moviesService.getMovie(createBookingDto.movieId);
+
+    const responseDto: CreatedBookingResponseDto = {
+      id: createdBooking.id,
+      movieName: movie.title,
+      bookingTime: createdBooking.bookingTime,
+    };
+
+    return responseDto;
   }
 
-  async getBooking(id: string): Promise<any> {
+  async getBooking(id: string): Promise<BookingResponseDto> {
     const booking = await this.bookingModel.findById(id).exec();
 
     if (booking) {
       const movie = await this.moviesService.getMovie(booking.movieId);
-      return { ...booking.toObject(), ...movie.toObject() };
+      const responseDto: BookingResponseDto = {
+        id: booking.id,
+        bookingTime: booking.bookingTime,
+        movie: {
+          id: movie.id,
+          title: movie.title,
+          director: movie.director,
+          actors: movie.actors,
+          genre: movie.genre,
+          ratings: movie.ratings,
+          ticket_price: movie.ticket_price,
+        },
+      };
+
+      return responseDto;
     }
 
     return null;
