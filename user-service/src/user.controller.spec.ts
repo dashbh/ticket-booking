@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { LoginDto } from './schema/user.dto';
+import { getModelToken } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 
 describe('AppController', () => {
@@ -11,7 +12,19 @@ describe('AppController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [UserService, JwtService],
+      providers: [
+        UserService,
+        {
+          provide: getModelToken('User'),
+          useValue: {},
+        },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: () => 'mocked-jwt-token',
+          },
+        },
+      ],
     }).compile();
 
     userController = module.get<UserController>(UserController);
@@ -19,14 +32,18 @@ describe('AppController', () => {
   });
 
   describe('login', () => {
+    it('should be defined', () => {
+      expect(userController).toBeDefined();
+    });
+
     it('should authenticate and return a user', async () => {
       const loginDto: LoginDto = {
         username: 'testuser',
         password: 'testpassword',
       };
 
-      const authenticatedUser = {
-        sessionId: 'testuser',
+      const authenticatedUser: any = {
+        token: 'mocked-jwt-token',
         userId: 'testuser',
       };
 

@@ -1,0 +1,73 @@
+pipelines:
+  default:
+    - step:
+        name: Run Tests
+        image: node:18-bullseye-slim
+        services:
+          - docker
+        script:
+          # Install dependencies
+          - cd user-service
+          - npm install
+
+          # Run tests
+          - npm test
+
+    - step:
+        name: Build and Deploy User Service
+        image: node:18-bullseye-slim
+        services:
+          - docker
+        script:
+          # Install dependencies
+          - cd user-service
+          - npm install
+
+          # Build the application
+          - npm run build
+
+          # Build the Docker image
+          - docker build -t user-svc .
+
+          # Push the Docker image to a Docker registry
+          - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          - docker push user-svc
+
+    - step:
+        name: Build and Deploy Booking Service
+        image: node:18-bullseye-slim
+        services:
+          - docker
+        script:
+          # Install dependencies
+          - cd booking-service
+          - npm install
+
+          # Build the application
+          - npm run build
+
+          # Build the Docker image
+          - docker build -t booking-svc .
+
+          # Push the Docker image to a Docker registry
+          - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          - docker push booking-svc
+    - step:
+        name: Build and Deploy API Gateway
+        image: node:18-bullseye-slim
+        services:
+          - docker
+        script:
+          # Install dependencies
+          - cd api-gateway
+          - npm install
+
+          # Build the application
+          - npm run build
+
+          # Build the Docker image
+          - docker build -t api-gateway-svc .
+
+          # Push the Docker image to a Docker registry
+          - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+          - docker push api-gateway-svc
