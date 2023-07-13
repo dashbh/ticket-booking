@@ -18,20 +18,18 @@ export class ProxyService {
         target: route.target,
         changeOrigin: true,
       });
-      console.log(route.path, {
-        target: route.target,
-        changeOrigin: true,
-      });
-
       this.proxyMiddlewares[route.path] = proxyMiddleware;
     }
   }
 
   handleRequest(path: string): RequestHandler | null {
-    const proxyMiddleware = this.proxyMiddlewares[path];
+    const matchingRoute = Object.keys(this.proxyMiddlewares).find((routePath) =>
+      path.startsWith(routePath),
+    );
 
-    if (proxyMiddleware) {
-      this.logger.log(`Proxying request: ${path}`);
+    if (matchingRoute) {
+      const proxyMiddleware = this.proxyMiddlewares[matchingRoute];
+      this.logger.log(`Proxying request: ${path} => ${matchingRoute}-service`);
       return proxyMiddleware;
     }
 
