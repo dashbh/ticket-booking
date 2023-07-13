@@ -4,6 +4,7 @@ import { BookingService } from './booking.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BookingSchema } from './booking.schema';
 import { DatabaseConnection } from './database/database.connection';
+import { MoviesModule } from './movies/movies.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { DatabaseConnection } from './database/database.connection';
     MongooseModule.forRootAsync({
       useClass: DatabaseConnection,
     }),
+    MoviesModule,
   ],
   controllers: [BookingController],
   providers: [BookingService],
