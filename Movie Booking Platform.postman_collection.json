@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": \"64aefeac34a73d3f895278ba\",\n    \"movieId\": \"1\",\n    \"movieName\": \"Star Wars\"\n}\n"
+							"raw": "{\n    \"userId\": \"64b0fb9e6a3367ea236dde63\",\n    \"movieId\": \"1\"\n}\n"
 						},
 						"url": {
 							"raw": "{{base_url}}/booking",
