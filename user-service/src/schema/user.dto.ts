@@ -20,6 +20,7 @@ export class UserResponseDto {
   fullName: string;
   phone: string;
   createdAt: Date;
+  bookings: Array<string>;
 }
 
 export class LoginDto {

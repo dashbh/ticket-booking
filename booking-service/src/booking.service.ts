@@ -8,6 +8,7 @@ import {
   BookingResponseDto,
   CreatedBookingResponseDto,
 } from './schema/bookings.dto';
+import { connect } from 'amqplib';
 
 @Injectable()
 export class BookingService {
@@ -15,6 +16,17 @@ export class BookingService {
     @InjectModel('Booking') private bookingModel: Model<Booking>,
     private readonly moviesService: MoviesService,
   ) {}
+
+  async publishToRabbitMQ(message) {
+    const connection = await connect(
+      `amqp://guest:guest@${process.env.RABBITMQ_HOST || 'localhost'}:5672`,
+    );
+    const channel = await connection.createChannel();
+
+    const booking_queue = 'booking-queue';
+    await channel.assertQueue(booking_queue);
+    channel.sendToQueue(booking_queue, Buffer.from(JSON.stringify(message)));
+  }
 
   async createBooking(
     createBookingDto: CreateBookingDto,
@@ -29,6 +41,12 @@ export class BookingService {
       movieName: movie.title,
       bookingTime: createdBooking.bookingTime,
     };
+
+    // Publish to message queue
+    await this.publishToRabbitMQ({
+      bookingId: createdBooking.id,
+      userId: createdBooking.userId,
+    });
 
     return responseDto;
   }

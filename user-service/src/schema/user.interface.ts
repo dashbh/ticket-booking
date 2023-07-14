@@ -5,5 +5,6 @@ export interface User extends Document {
   password: string;
   fullName: string;
   phone: string;
+  bookings: Array<string>;
   createdAt: Date;
 }

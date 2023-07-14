@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bdb90f0e-d690-478d-a09f-f844c4f72524",
+		"_postman_id": "1925f091-3d08-45a1-bcc7-6aa709671061",
 		"name": "Movie Booking Platform",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23626079"
@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": \"64aefeac34a73d3f895278ba\",\n    \"movieId\": \"12345\",\n    \"movieName\": \"Star Wars\"\n}\n"
+							"raw": "{\n    \"userId\": \"64aefeac34a73d3f895278ba\",\n    \"movieId\": \"1\",\n    \"movieName\": \"Star Wars\"\n}\n"
 						},
 						"url": {
 							"raw": "{{base_url}}/booking",

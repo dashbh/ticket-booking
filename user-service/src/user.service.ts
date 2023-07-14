@@ -7,13 +7,34 @@ import * as bcrypt from 'bcrypt';
 import Redis from 'ioredis';
 import { v4 as uuidv4 } from 'uuid';
 import redisConf from './config/redis.config';
-
+import { connect } from 'amqplib';
 @Injectable()
 export class UserService {
   private readonly redisClient: Redis;
 
   constructor(@InjectModel('User') private userModel: Model<User>) {
     this.redisClient = new Redis(`redis://${redisConf.host}:${redisConf.port}`);
+
+    this.setupRabbitMQConnection();
+  }
+
+  async setupRabbitMQConnection() {
+    const connection = await connect(
+      `amqp://guest:guest@${process.env.RABBITMQ_HOST || 'localhost'}:5672`,
+    );
+    const channel = await connection.createChannel();
+
+    await channel.assertQueue('booking-queue');
+    channel.consume('booking-queue', (message) => {
+      try {
+        const messageObj = JSON.parse(message.content.toString());
+        if (messageObj.userId && messageObj.bookingId)
+          this.updateUserWithBooking(messageObj.userId, messageObj.bookingId);
+      } catch (e) {
+        console.log('Not JSON');
+      }
+      console.log('Received message:', message.content.toString());
+    });
   }
 
   private mapUserObject(user): UserResponseDto {
@@ -22,6 +43,7 @@ export class UserService {
       fullName: user.fullName,
       createdAt: user.createdAt,
       phone: user.phone,
+      bookings: user.bookings,
     };
   }
 
@@ -76,6 +98,12 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async updateUserWithBooking(userId: string, bookingId: string) {
+    const user = await this.userModel.findById(userId);
+    user.bookings.push(bookingId);
+    await user.save();
   }
 
   private generateSessionId(): string {
