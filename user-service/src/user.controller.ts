@@ -29,4 +29,17 @@ export class UserController {
     const token = this.jwtService.sign({ sessionId, userId });
     return { token, userId };
   }
+
+  @Post('validate-token')
+  @UseGuards(JwtAuthGuard)
+  validateToken(@Body('token') token: string): boolean {
+    try {
+      const decoded = this.jwtService.verify(token);
+      console.log(decoded);
+      // If the verification succeeds, return true
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }

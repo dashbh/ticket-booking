@@ -29,7 +29,11 @@ export class UserService {
       try {
         const messageObj = JSON.parse(message.content.toString());
         if (messageObj.userId && messageObj.bookingId) {
-          this.updateUserWithBooking(messageObj.userId, messageObj.bookingId);
+          channel.ack(message);
+          this.updateUserWithBooking(
+            messageObj.userId,
+            messageObj.bookingId,
+          ).catch((err) => console.log(err));
         }
       } catch (e) {
         console.log('Not JSON');
@@ -102,10 +106,14 @@ export class UserService {
   }
 
   async updateUserWithBooking(userId: string, bookingId: string) {
-    const user = await this.userModel.findById(userId);
-    if (user) {
-      user.bookings.push(bookingId);
-      await user.save();
+    try {
+      const user = await this.userModel.findById(userId);
+      if (user) {
+        user.bookings.push(bookingId);
+        await user.save();
+      }
+    } catch (err) {
+      throw new Error('User not found');
     }
   }
 

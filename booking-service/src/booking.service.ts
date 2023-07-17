@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Booking } from './schema/booking.interface';
 import { CreateBookingDto } from './schema/create-booking.dto';
 import { MoviesService } from './movies/movies.service';
+import { HttpService } from '@nestjs/axios';
+import { AxiosResponse } from 'axios';
+
 import {
   BookingResponseDto,
   CreatedBookingResponseDto,
@@ -15,7 +18,20 @@ export class BookingService {
   constructor(
     @InjectModel('Booking') private bookingModel: Model<Booking>,
     private readonly moviesService: MoviesService,
+    private httpService: HttpService,
   ) {}
+
+  async validateToken(token: string): Promise<boolean> {
+    try {
+      const response: AxiosResponse<boolean> = await this.httpService
+        .post<boolean>(`http://localhost:3001/user/validate-token`, { token })
+        .toPromise();
+
+      return response.data;
+    } catch (error) {
+      throw new Error('Error validating token');
+    }
+  }
 
   async publishToRabbitMQ(message) {
     const connection = await connect(
@@ -31,10 +47,13 @@ export class BookingService {
   async createBooking(
     createBookingDto: CreateBookingDto,
   ): Promise<CreatedBookingResponseDto> {
+    const movie = await this.moviesService.getMovie(createBookingDto.movieId);
+    if (!movie) {
+      throw new HttpException('Movie not found', HttpStatus.NOT_FOUND);
+    }
+
     const createdBooking = new this.bookingModel(createBookingDto);
     createdBooking.save();
-
-    const movie = await this.moviesService.getMovie(createBookingDto.movieId);
 
     const responseDto: CreatedBookingResponseDto = {
       id: createdBooking.id,
