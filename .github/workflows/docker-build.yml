@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-and-push:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,7 @@ jobs:
         run: npm run build
         working-directory: ./user-service
 
-  build-and-push:
+  docker-build-and-push:
     runs-on: ubuntu-latest
 
     steps:
