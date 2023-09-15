@@ -18,10 +18,7 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USER }}/api-gateway -f ./api-gateway/Dockerfile ./api-gateway
-          docker tag ${{ secrets.DOCKER_USER }}/api-gateway:${{ github.sha }} ${{ secrets.DOCKER_USER }}/api-gateway:latest
-
+          docker build -t ${{ secrets.DOCKER_USER }}/api-gateway:latest -f ./api-gateway/Dockerfile ./api-gateway
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USER }}/api-gateway:${{ github.sha }}
           docker push ${{ secrets.DOCKER_USER }}/api-gateway:latest
