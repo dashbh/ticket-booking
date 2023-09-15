@@ -20,9 +20,11 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+        working-directory: ./user-service
 
       - name: Run SonarCloud Analysis
         run: |
           npm run build
           npm install -g sonarqube-scanner
           sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.login=$SONAR_TOKEN
+        working-directory: ./user-service

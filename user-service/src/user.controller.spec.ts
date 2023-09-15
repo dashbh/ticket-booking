@@ -31,6 +31,10 @@ describe('AppController', () => {
     userService = module.get<UserService>(UserService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });  
+
   describe('login', () => {
     it('should be defined', () => {
       expect(userController).toBeDefined();
