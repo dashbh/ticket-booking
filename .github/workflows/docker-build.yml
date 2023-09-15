@@ -16,9 +16,17 @@ jobs:
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
 
-      - name: Build and tag Docker image
+      - name: Build push [api-gateway] Docker image
         run: |
           docker build -t ${{ secrets.DOCKER_USER }}/api-gateway:latest -f ./api-gateway/Dockerfile ./api-gateway
-      - name: Push Docker image
-        run: |
           docker push ${{ secrets.DOCKER_USER }}/api-gateway:latest
+      
+      - name: Build push [user-service] Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USER }}/user-service:latest -f ./user-service/Dockerfile ./user-service
+          docker push ${{ secrets.DOCKER_USER }}/api-gateway:latest
+
+      - name: Build push [booking-service] Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USER }}/booking-service:latest -f ./booking-service/Dockerfile ./api-gateway
+          docker push ${{ secrets.DOCKER_USER }}/booking-service:latest
