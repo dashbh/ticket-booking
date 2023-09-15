@@ -24,7 +24,4 @@ jobs:
 
       - name: Run SonarCloud Analysis
         run: |
-          npm run build
-          npm install -g sonarqube-scanner
-          sonar-scanner -Dsonar.projectBaseDir=. -Dsonar.login=$SONAR_TOKEN
-        working-directory: ./user-service
+          npx sonarqube-scanner
