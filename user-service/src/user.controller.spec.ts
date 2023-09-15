@@ -50,6 +50,7 @@ describe('AppController', () => {
       jest.spyOn(userService, 'login').mockResolvedValue(authenticatedUser);
 
       const result = await userController.login(loginDto);
+      console.log(result)
 
       expect(result).toEqual(authenticatedUser);
     });
