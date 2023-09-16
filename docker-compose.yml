@@ -16,10 +16,12 @@ services:
       RABBITMQ_HOST: rabbitmq
       JWT_SECRET: 'MY_JWT_SECRET'
     ports:
-      - 3001:3001
+      - 9001:9001
     depends_on:
       - mongo
       - redis
+    networks:
+      - booking_nw
     restart: always
   booking-service:
     build:
@@ -34,17 +36,19 @@ services:
       MONGO_DB_NAME: db
       RABBITMQ_HOST: rabbitmq
     ports:
-      - 3002:3002
+      - 9002:9002
     depends_on:
       - mongo
       - redis
+    networks:
+      - booking_nw
     restart: always
   api-gateway:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - 9000:9000
     volumes:
       - /app/node_modules
       - ./api-gateway:/app
@@ -52,8 +56,11 @@ services:
       - user-service
       - booking-service
     environment:
+      GATEWAY_SVC_HOST: api-gateway
       USER_SVC_HOST: user-service
       BOOKING_SVC_HOST: booking-service
+    networks:
+      - booking_nw
     restart: always
   mongo:
     image: bitnami/mongodb:6.0.8
@@ -61,16 +68,45 @@ services:
       - 27017:27017
     volumes:
       - ./db:/data/db
+    networks:
+      - booking_nw
     restart: always
   redis:
     image: redis
     ports:
       - 6379:6379
+    networks:
+      - booking_nw
     restart: always
   rabbitmq:
     image: rabbitmq:3.10-management
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - booking_nw
     restart: always
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - booking_nw
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=pass
+    volumes:
+      - ./grafana:/var/lib/grafana
+    networks:
+      - booking_nw
 
+networks:
+  booking_nw:

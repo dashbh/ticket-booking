@@ -1,0 +1,24 @@
+type Booking {
+  id: ID!
+  userId: String!
+  movieId: String!
+  seats: [String]!
+  theater: String!
+  movieTime: String!
+}
+
+input CreateBookingInput {
+  userId: String!
+  movieId: String!
+  seats: [String]!
+  theater: String!
+  movieTime: String!
+}
+
+type Query {
+  getBooking(id: ID!): Booking
+}
+
+type Mutation {
+  createBooking(input: CreateBookingInput!): Booking
+}

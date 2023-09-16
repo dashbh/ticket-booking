@@ -5,7 +5,7 @@ import { UserModule } from './user.module';
 async function bootstrap() {
   const app = await NestFactory.create(UserModule);
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3001);
+  await app.listen(9001);
 }
 
 bootstrap();

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1925f091-3d08-45a1-bcc7-6aa709671061",
+		"_postman_id": "e79454ee-4dc3-42ef-8b30-200a5bcca785",
 		"name": "Movie Booking Platform",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23626079"
+		"_exporter_id": "29772247"
 	},
 	"item": [
 		{
@@ -162,7 +162,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:3000",
+			"value": "http://localhost:9000",
 			"type": "string"
 		},
 		{

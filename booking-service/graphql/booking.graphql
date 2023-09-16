@@ -1,0 +1,27 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CreatedBookingResponseDto {
+  id: String!
+}
+
+type BookingResponseDto {
+  id: String!
+}
+
+type Query {
+  getBooking(id: String!): BookingResponseDto!
+}
+
+type Mutation {
+  createBooking(input: CreateBookingDto!): CreatedBookingResponseDto!
+}
+
+input CreateBookingDto {
+  userId: String!
+  movieId: String!
+  seats: [String!]!
+  theater: String!
+  movieTime: String!
+}

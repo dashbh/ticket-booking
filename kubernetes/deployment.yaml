@@ -16,7 +16,7 @@ spec:
       - name: user-service
         image: bhadash1/ticket-booking-user-service:latest
         ports:
-          - containerPort: 3001
+          - containerPort: 9001
         env:
             - name: MONGO_HOST
               value: mongo
@@ -35,7 +35,7 @@ spec:
       - name: booking-service
         image: bhadash1/ticket-booking-booking-service:latest
         ports:
-          - containerPort: 3002
+          - containerPort: 9002
         env:
             - name: MONGO_HOST
               value: mongo
@@ -48,7 +48,7 @@ spec:
       - name: booking-service
         image: bhadash1/ticket-booking-api-gateway:latest
         ports:
-          - containerPort: 3000
+          - containerPort: 9000
         env:
             - name: USER_SVC_HOST
               value: user-service

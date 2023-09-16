@@ -58,7 +58,9 @@ export class BookingService {
     const responseDto: CreatedBookingResponseDto = {
       id: createdBooking.id,
       movieName: movie.title,
-      bookingTime: createdBooking.bookingTime,
+      movieTime: createdBooking.movieTime,
+      seats: createdBooking.seats,
+      theater: createdBooking.theater,
     };
 
     // Publish to message queue
@@ -77,7 +79,9 @@ export class BookingService {
       const movie = await this.moviesService.getMovie(booking.movieId);
       const responseDto: BookingResponseDto = {
         id: booking.id,
-        bookingTime: booking.bookingTime,
+        movieTime: booking.movieTime,
+        seats: booking.seats,
+        theater: booking.theater,
         movie: {
           id: movie.id,
           title: movie.title,

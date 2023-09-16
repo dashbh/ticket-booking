@@ -14,9 +14,9 @@ export class BookingController {
 
   @Post()
   createBooking(
-    @Body() createBookingDto: CreateBookingDto,
+    @Body() input: CreateBookingDto,
   ): Promise<CreatedBookingResponseDto> {
-    return this.bookingService.createBooking(createBookingDto);
+    return this.bookingService.createBooking(input);
   }
 
   @Get(':id')

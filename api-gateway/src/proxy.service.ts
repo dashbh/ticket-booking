@@ -27,6 +27,7 @@ export class ProxyService {
       path.startsWith(routePath),
     );
 
+
     if (matchingRoute) {
       const proxyMiddleware = this.proxyMiddlewares[matchingRoute];
       this.logger.log(`Proxying request: ${path} => ${matchingRoute}-service`);
