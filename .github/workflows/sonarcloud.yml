@@ -18,17 +18,17 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install dependencies [booking-service]
         run: npm install
         working-directory: ./booking-service
-      - name: Run tests
+      - name: Run tests [booking-service]
         run: npm run test:cov
         working-directory: ./booking-service
 
-      - name: Install dependencies
+      - name: Install dependencies [user-service]
         run: npm install
         working-directory: ./user-service
-      - name: Run tests
+      - name: Run tests [user-service]
         run: npm run test:cov
         working-directory: ./user-service
       - name: SonarCloud Scan
