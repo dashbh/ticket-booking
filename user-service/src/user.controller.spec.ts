@@ -4,6 +4,22 @@ import { UserService } from './user.service';
 import { LoginDto } from './schema/user.dto';
 import { getModelToken } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
+import IORedisMock from 'ioredis-mock';
+
+// Create a mock Redis client using ioredis-mock
+const mockRedisClient = new IORedisMock();
+
+jest.mock('amqplib', () => ({
+  connect: jest.fn(() => Promise.resolve({
+    createChannel: jest.fn(() => Promise.resolve({
+      assertExchange: jest.fn(),
+      assertQueue: jest.fn(),
+      publish: jest.fn(),
+      consume: jest.fn(),
+    })),
+    close: jest.fn(),
+  })),
+}));
 
 describe('AppController', () => {
   let userController: UserController;
@@ -24,6 +40,10 @@ describe('AppController', () => {
             sign: () => 'mocked-jwt-token',
           },
         },
+        {
+          provide: 'REDIS_CLIENT', // Use a custom token to inject the Redis client
+          useValue: mockRedisClient, // Use the mock Redis client
+        },
       ],
     }).compile();
 
@@ -33,7 +53,7 @@ describe('AppController', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-  });  
+  });
 
   describe('login', () => {
     it('should be defined', () => {
