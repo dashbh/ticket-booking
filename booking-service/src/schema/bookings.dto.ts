@@ -5,9 +5,17 @@ import { ObjectType, Field } from '@nestjs/graphql';
 export class CreatedBookingResponseDto {
   @Field()
   id: string;
+
+  @Field()
   movieName: string;
+
+  @Field()
   movieTime: Date;
-  seats: [string];
+
+  @Field(() => [String])
+  seats: string[];
+
+  @Field()
   theater: string;
 }
 
@@ -15,8 +23,16 @@ export class CreatedBookingResponseDto {
 export class BookingResponseDto {
   @Field()
   id: string;
+
+  @Field()
   movieTime: Date;
+
+  @Field(() => MovieResponseDto)
   movie: MovieResponseDto;
-  seats: [string];
+
+  @Field(() => [String])
+  seats: string[];
+
+  @Field()
   theater: string;
 }

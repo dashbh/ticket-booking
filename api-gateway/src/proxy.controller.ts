@@ -14,15 +14,14 @@ export class ProxyController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
-    const proxyHandler = this.proxyService.handleRequest(req.path);
-
     if (req.path.startsWith('/metrics')) {
       // Handle non-proxy routes here
       next();
     } else {
+      const proxyHandler = this.proxyService.handleRequest(req.path);
       if (proxyHandler) {
         proxyHandler(req, res, next);
-        console.log(req)
+        console.log(req.path, proxyHandler)
         this.metricsService.incrAuthCounter('success');
       } else {
         res.status(404).send('Route not found');

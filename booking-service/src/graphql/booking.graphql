@@ -1,10 +1,19 @@
+type Movie {
+  title: String
+  director: String
+  actors: [String]
+  genre: [String]
+  ratings: Int
+  ticket_price: Int
+}
+
 type Booking {
-  id: ID!
-  userId: String!
-  movieId: String!
-  seats: [String]!
-  theater: String!
-  movieTime: String!
+  id: ID
+  userId: String
+  movies: Movie
+  seats: [String]
+  theater: String
+  movieTime: String
 }
 
 input CreateBookingInput {

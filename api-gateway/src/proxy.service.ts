@@ -34,7 +34,7 @@ export class ProxyService {
       return proxyMiddleware;
     }
 
-    this.logger.error(`Route not found for request: ${path}`);
+    this.logger.error(`API Gateway Error : Route not found for request: ${path}`);
     return null;
   }
 }
