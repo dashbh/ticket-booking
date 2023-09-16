@@ -25,6 +25,13 @@ jobs:
         run: npm run test:cov
         working-directory: ./booking-service
 
+      - name: Install dependencies [api-gateway]
+        run: npm install
+        working-directory: ./api-gateway
+      - name: Run tests [api-gateway]
+        run: npm run test:cov
+        working-directory: ./api-gateway
+
       - name: Install dependencies [user-service]
         run: npm install
         working-directory: ./user-service
