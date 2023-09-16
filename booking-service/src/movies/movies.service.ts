@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Movie } from './schema/movie.interface';
-import { moviesSeedData } from 'src/database/movies';
+import { moviesSeedData } from '../database/movies';
 
 @Injectable()
 export class MoviesService {

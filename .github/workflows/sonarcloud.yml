@@ -20,6 +20,13 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./booking-service
+      - name: Run tests
+        run: npm run test:cov
+        working-directory: ./booking-service
+
+      - name: Install dependencies
+        run: npm install
         working-directory: ./user-service
       - name: Run tests
         run: npm run test:cov
