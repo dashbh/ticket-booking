@@ -11,3 +11,10 @@
 ## Services
 
 - Check service status: `kubectl get svc api-gateway -n booking-namespace`
+
+
+## GCP - Deployment Steps
+
+- Enable GKE
+- Create Cluster: `gcloud container clusters create booking-app-cluster --num-nodes=3 --zone=asia-south1-a`
+
