@@ -3,30 +3,18 @@ import { Counter, register } from 'prom-client';
 
 @Injectable()
 export class MetricsService {
-  private readonly bookingCounter: Counter<string>;
-  private readonly authCounter: Counter<string>;
+  private readonly proxyCounter: Counter<string>;
 
   constructor() {
-    this.bookingCounter = new Counter({
-      name: 'booking_calls',
-      help: 'Number of calls to booking svc',
-      labelNames: ['status'],
-    });
-    register.registerMetric(this.bookingCounter);
-
-    this.authCounter = new Counter({
-        name: 'auth_calls',
-        help: 'Number of calls to auth svc',
+    this.proxyCounter = new Counter({
+        name: 'proxy_requests',
+        help: 'Number of calls to api_gateway svc',
         labelNames: ['status'],
       });
-    register.registerMetric(this.bookingCounter);
+    register.registerMetric(this.proxyCounter);
   }
 
-  incrAuthCounter(status: 'success' | 'failed') {
-    this.authCounter.labels(status).inc();
-  }
-
-  incrBookingCounter(status: 'success' | 'failed') {
-    this.bookingCounter.labels(status).inc();
+  incrProxyCounter(status: 'success' | 'failed') {
+    this.proxyCounter.labels(status).inc();
   }
 }

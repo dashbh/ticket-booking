@@ -1,6 +1,6 @@
 ## GraphQL getBooking
 {
-  getBooking(id: "6505b5009e2398956d64bb11") {
+  getBooking(id: "6506f2b6924e5ac70a79efce") {
     id,
     movie {
       title,

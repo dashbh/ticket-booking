@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": \"64b0fb9e6a3367ea236dde63\",\n    \"movieId\": \"1\"\n}\n"
+							"raw": "{\n    \"userId\": \"6506efd912f92375047aab30\",\n    \"movieId\": \"1\",\n    \"seats\": [\"1A\", \"2A\"],\n    \"theater\": \"PVR WhiteField - 1\",\n    \"movieTime\": \"Sat Sep 16 2023 18:05:29 GMT+0530 (India Standard Time)\"\n}\n"
 						},
 						"url": {
 							"raw": "{{base_url}}/booking",
@@ -60,7 +60,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "64af7a529865eb41baf98c61"
+									"value": "6506f05a924e5ac70a79efc6"
 								}
 							]
 						},
@@ -138,7 +138,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiI4OWIwYzcwYi0zMWZiLTRhYWUtYTg3Ni1jZWUzYWY4MWE3ODYiLCJ1c2VySWQiOiI2NGFlZmVhYzM0YTczZDNmODk1Mjc4YmEiLCJpYXQiOjE2ODkyMjE2NjgsImV4cCI6MTY4OTMwODA2OH0.lDWhkITXSU_soyhY8gLYZLHGn_Mv0G5OqVbSuSiGFxk",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiI3ZGY1N2FlMi03MzI4LTRiMzktYjRkMi1lNzYwNmFlZGJkODEiLCJ1c2VySWQiOiI2NTA2ZWZkOTEyZjkyMzc1MDQ3YWFiMzAiLCJpYXQiOjE2OTQ5NTM0MzgsImV4cCI6MTY5NTAzOTgzOH0.QdCkzTN2NcFo39rN-U_OUSNJHDVKxuMgiUjtZn1k2PA",
 								"type": "text"
 							}
 						],
